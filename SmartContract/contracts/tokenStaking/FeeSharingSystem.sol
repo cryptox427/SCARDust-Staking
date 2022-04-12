@@ -78,7 +78,7 @@ contract FeeSharingSystem is ReentrancyGuard, Ownable {
      * @dev There is a limit of 1 LOOKS per deposit to prevent potential manipulation of current shares
      */
     function deposit(uint256 amount, bool claimRewardToken) external nonReentrant {
-        require(amount >= PRECISION_FACTOR, "Deposit: Amount must be >= 1 LOOKS");
+        require(amount >= PRECISION_FACTOR, "Deposit: Amount must be >= 1 SCARDUST");
 
         // Auto compounds for everyone
         tokenDistributor.harvestAndCompound();
@@ -149,6 +149,7 @@ contract FeeSharingSystem is ReentrancyGuard, Ownable {
 
         // Transfer reward token to sender
         rewardToken.safeTransfer(msg.sender, pendingRewards);
+        ScarDustToken.safeTransfer(msg.sender, pendingRewards);
 
         emit Harvest(msg.sender, pendingRewards);
     }
